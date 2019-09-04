@@ -4,7 +4,7 @@ import TodoItem from './TodoItem';
 class TodoItemList extends Component {
   render() {
     const { todos, onToggle, onRemove } = this.props;
-
+	console.log(todos);
     const todoList = todos.map(
       ({id, title, status}) => (
         <TodoItem
@@ -19,7 +19,7 @@ class TodoItemList extends Component {
     );
 
     return (
-      <div>
+      <div className="todoList">
         {todoList}    
       </div>
     );

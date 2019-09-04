@@ -7,9 +7,10 @@ import TodoItemList from './components/TodoItemList';
 class App extends Component {
 
   id = 3 // 이미 0,1,2 가 존재하므로 3으로 설정
-
+  
   state = {
     input: '',
+	display : true,
     todos: [
       { id: 0, title: ' 리액트 소개', status: "todo" },
       { id: 1, title: ' 리액트 소개', status: "complete" },
@@ -17,7 +18,7 @@ class App extends Component {
     ]
   }
 
-  fetchUsers() {
+  componentDidMount() {
   // Where we're fetching data from
   fetch(`https://killsanghyuck.github.io/prography_5th_front/todoDummy.json`)
     // We get the API response and receive data in JSON format...
@@ -25,7 +26,7 @@ class App extends Component {
     // ...then we update the users state
     .then(data => {
       this.setState({
-        todos: data,
+        todos: data.body,
         isLoading: false,
       });
       console.log(data);
@@ -33,7 +34,7 @@ class App extends Component {
     )
     // Catch any errors we hit and update the app
     .catch(error => this.setState({ error, isLoading: false }));
-  }
+  };
 
   handleRemove = (id) => {
     const { todos } = this.state;
@@ -54,7 +55,7 @@ class App extends Component {
     // 기존의 값들을 복사하고, checked 값을 덮어쓰기
     nextTodos[index] = { 
       ...selected, 
-      status: (selected.status=='complete')?'todo':'complete'
+      status: (selected.status==='complete')?'todo':'complete'
     };
 
     this.setState({
@@ -74,7 +75,7 @@ class App extends Component {
       input: '', // 인풋 비우고
       // concat 을 사용하여 배열에 추가
       todos: todos.concat({
-        id: this.id++,
+        id: this.state.todos.length+1,
         title: input,
         status: "todo"
       })
@@ -87,8 +88,9 @@ class App extends Component {
       this.handleCreate();
     }
   }
+ 
 
-    render() {
+  render() {
     const { input, todos } = this.state;
     const {
       handleChange,
